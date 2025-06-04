@@ -1,0 +1,71 @@
+{% extends "analyze.html" %} {% block tab %}
+<div id="summary-content" class="tab-content">
+  <div class="bg-white shadow-sm rounded-lg p-6 mb-6">
+    <h2 class="text-2xl font-semibold text-gray-800 mb-6">Summary</h2>
+
+    <div
+      class="w-full bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 rounded-lg border border-blue-100 p-6 mb-6"
+    >
+      <div class="flex justify-between items-center text-center">
+        <div class="flex-1">
+          <div class="text-3xl font-bold text-blue-700">
+            {{ stats.unique_known }}
+          </div>
+          <div class="text-sm text-blue-600 mt-1">Known Types</div>
+        </div>
+        <div class="flex-none px-3 text-gray-500">−</div>
+        <div class="flex-1">
+          <div class="text-3xl font-bold text-indigo-700">
+            {{ stats.unique_observations }}
+          </div>
+          <div class="text-sm text-indigo-600 mt-1">Used Types</div>
+        </div>
+        <div class="flex-none px-3 text-gray-500">=</div>
+        <div class="flex-1">
+          <div class="text-3xl font-bold text-purple-700">
+            {{ stats.unique_dead }}
+          </div>
+          <div class="text-sm text-purple-600 mt-1">Dead Types</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+      <div class="bg-blue-50 border border-blue-200 rounded-md p-4">
+        <p class="text-blue-700 mb-1">
+          <span class="font-medium">Total Reports:</span> {{ stats.total_reports
+          }}
+        </p>
+        <p class="text-blue-700 mb-1">
+          <span class="font-medium">Unique Apps:</span> {{
+          stats.unique_apps|length }}
+        </p>
+        <p class="text-blue-700 mb-1">
+          <span class="font-medium">Unique Reported Types:</span> {{
+          stats.unique_observations }}
+        </p>
+        <p class="text-blue-700 mb-1">
+          <span class="font-medium">Total Known Types:</span> {{
+          stats.total_known }}
+        </p>
+        <p class="text-blue-700 mb-1">
+          <span class="font-medium">Unique Known Types:</span> {{
+          stats.unique_known }}
+        </p>
+      </div>
+      <div class="bg-purple-50 border border-purple-200 rounded-md p-4">
+        <p class="text-gray-700 mb-2">
+          Reaper has collected data on {{ stats.unique_observations }} unique
+          types across {{ stats.unique_apps|length }} different applications.
+        </p>
+        <p class="text-gray-700">
+          {% if stats.total_known > 0 %} Based on static analysis, {{
+          stats.total_known }} types are known to the system, allowing for dead
+          code detection. {% else %} No static class analysis has been uploaded
+          yet. Use the Upload feature to enable dead code detection. {% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

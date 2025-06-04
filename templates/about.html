@@ -1,0 +1,85 @@
+{% extends "base.html" %} {% block title %}About - Reaper Backend{% endblock %}
+{% block header %}About Reaper{% endblock %} {% block content %}
+
+<div class="bg-white shadow-sm rounded-lg p-6 mb-6">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-4">What is Reaper?</h2>
+  <p class="text-gray-700">
+    Reaper is a tool for detecting dead code in production. Unlike static
+    approaches, Reaper uses data from production - allowing it to detect unused
+    code which is impossible to detect via static approaches.
+  </p>
+</div>
+
+<div class="bg-white shadow-sm rounded-lg p-6 mb-6">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-4">How Reaper Works</h2>
+
+  <h3 class="text-xl font-medium text-gray-700 mt-4 mb-2">iOS</h3>
+  <p class="text-gray-700 mb-3">
+    On iOS, Reaper works by inspecting the Objective-C and Swift runtime for
+    metadata that tracks the lifecycle of types:
+  </p>
+  <ul class="list-disc pl-6 mb-6 text-gray-700 space-y-2">
+    <li>
+      For Objective-C classes, it uses the
+      <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono"
+        >RW_INITIALIZED</code
+      >
+      bit that is set by the runtime the first time a class is accessed.
+    </li>
+    <li>
+      For Swift types, it uses a combination of runtime flags to determine which
+      classes have been accessed.
+    </li>
+  </ul>
+
+  <h3 class="text-xl font-medium text-gray-700 mt-4 mb-2">Android</h3>
+  <p class="text-gray-700 mb-3">
+    On Android, Reaper works by instrumenting classes at build time:
+  </p>
+  <ul class="list-disc pl-6 mb-4 text-gray-700 space-y-2">
+    <li>
+      For each JVM class, it computes the SHA256 hash of the class signature and
+      extracts the top 64 bits.
+    </li>
+    <li>
+      It injects code into the
+      <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono"
+        >&lt;clinit&gt;</code
+      >
+      (static initializer) and
+      <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono"
+        >&lt;init&gt;</code
+      >
+      (constructor) methods to log when the class is used.
+    </li>
+    <li>At runtime, these hashes are collected and reported to the backend.</li>
+  </ul>
+</div>
+
+<div class="bg-white shadow-sm rounded-lg p-6 mb-6">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-4">Using Reaper</h2>
+  <p class="text-gray-700 mb-3">Using Reaper is a two-step process:</p>
+  <ol class="list-decimal pl-6 mb-6 text-gray-700 space-y-2">
+    <li>
+      Run a script that statically analyzes your app binary to generate a list
+      of all types that Reaper supports.
+    </li>
+    <li>
+      Aggregate reports from production users. The differences between these
+      sets are the types that were never used in production, and can be deleted
+      from your codebase.
+    </li>
+  </ol>
+
+  <h3 class="text-xl font-medium text-gray-700 mt-4 mb-2">This Backend</h3>
+  <p class="text-gray-700 mb-3">
+    This Flask application serves as a minimal backend for collecting Reaper
+    reports from iOS and Android apps. It provides:
+  </p>
+  <ul class="list-disc pl-6 mb-4 text-gray-700 space-y-2">
+    <li>Endpoints for receiving class usage reports</li>
+    <li>Storage of reports in sqlite database</li>
+    <li>Basic analytics to view collected data</li>
+  </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends "base.html" %} {% block title %}Upload - Reaper Backend{% endblock %}
+{% block content %}
+<div class="bg-white shadow-sm rounded-lg p-6 mb-6">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-4">Upload</h2>
+  <p class="text-gray-700 mb-6">
+    Upload an
+    <code class="bg-gray-100 px-1.5 py-0.5 rounded text-sm font-mono"
+      >.aab</code
+    >
+    file.
+  </p>
+
+  <form action="/upload" method="post" enctype="multipart/form-data">
+    <div class="mb-4">
+      <label for="file" class="block text-sm font-medium text-gray-700 mb-2"
+        >App (<code class="bg-gray-100 px-1 py-0.5 rounded text-xs font-mono"
+          >.aab</code
+        >)</label
+      >
+      <input
+        type="file"
+        id="file"
+        name="file"
+        required
+        class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-sm file:font-medium file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+      />
+    </div>
+
+    <button
+      type="submit"
+      class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+    >
+      Find Dead Code
+    </button>
+  </form>
+</div>
+{% endblock %}

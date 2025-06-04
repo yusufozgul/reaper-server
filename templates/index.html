@@ -1,0 +1,33 @@
+{% extends "base.html" %} {% block title %}Reaper Backend{% endblock %} {% block
+content %}
+
+<div class="bg-white shadow-sm rounded-lg p-6 mb-6">
+  <h2 class="text-2xl font-semibold text-gray-800 mb-4">
+    Reaper API Endpoints
+  </h2>
+  <ul class="list-disc pl-6 mb-6 text-gray-700 space-y-2">
+    <li>
+      <span class="font-medium">POST /report</span> - Endpoint for Reaper SDK to
+      submit class usage reports
+    </li>
+    <li>
+      <span class="font-medium">POST /reaper/error</span> - Endpoint for Reaper
+      SDK to submit error reports
+    </li>
+    <li>
+      <span class="font-medium">GET /analyze</span> - View statistics about
+      collected reports
+    </li>
+  </ul>
+
+  <h3 class="text-xl font-medium text-gray-700 mt-6 mb-3">
+    Setting up Reaper with this backend
+  </h3>
+  <p class="text-gray-700 mb-3">Add the following to your Android manifest:</p>
+  <pre class="bg-gray-100 p-4 rounded-md font-mono text-sm overflow-x-auto">
+&lt;meta-data
+  android:name="com.emergetools.OVERRIDE_BASE_URL"
+  android:value="http://your-server-url" /&gt;</pre
+  >
+</div>
+{% endblock %}

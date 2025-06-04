@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block title %}Analyze Reports - Reaper Backend{%
+endblock %} {% block header %}Report Analysis{% endblock %} {% block content %}
+<div class="mb-6">
+  <div class="border-b border-gray-200">
+    <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+      <a
+        id="tab-summary"
+        class="tab-button {% if request.args.get('tab', 'summary') == 'summary' %}border-blue-500 text-blue-600{% else %}border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300{% endif %} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+        href="{{ url_for('analyze', tab='summary') }}"
+      >
+        Summary
+      </a>
+      <a
+        id="tab-reports"
+        class="tab-button {% if request.args.get('tab') == 'reports' %}border-blue-500 text-blue-600{% else %}border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300{% endif %} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+        href="{{ url_for('analyze', tab='reports') }}"
+      >
+        Recent Reports
+      </a>
+      <a
+        id="tab-apps"
+        class="tab-button {% if request.args.get('tab') == 'apps' %}border-blue-500 text-blue-600{% else %}border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300{% endif %} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+        href="{{ url_for('analyze', tab='apps') }}"
+      >
+        Apps
+      </a>
+      <a
+        id="tab-deadcode"
+        class="tab-button {% if request.args.get('tab') == 'dead' %}border-blue-500 text-blue-600{% else %}border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300{% endif %} whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+        href="{{ url_for('analyze', tab='dead') }}"
+      >
+        Dead Code
+      </a>
+    </nav>
+  </div>
+</div>
+
+{% block tab %} {% endblock %} {% endblock %}
