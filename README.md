@@ -2,6 +2,8 @@
 
 Reaper is a tool for detecting dead code in mobile applications by combining static analysis with runtime data collection. Unlike traditional static analysis tools, Reaper uses data from production - allowing it to detect unused code which is impossible to detect via static approaches.
 
+[![Reaper Walkthough](https://img.youtube.com/vi/HA1Av22c4kI/0.jpg)](https://www.youtube.com/watch?v=HA1Av22c4kI)
+
 ## How It Works
 
 Reaper uses a two-step approach to identify dead code:
