@@ -2,7 +2,11 @@
 
 Reaper is a tool for detecting dead code in mobile applications by combining static analysis with runtime data collection. Unlike traditional static analysis tools, Reaper uses data from production - allowing it to detect unused code which is impossible to detect via static approaches.
 
+This repo contains an example backend implementation for Reaper. See the video for a brief walkthrough.
+
 [![Reaper Walkthough](https://img.youtube.com/vi/HA1Av22c4kI/0.jpg)](https://www.youtube.com/watch?v=HA1Av22c4kI)
+
+For platform-specific implementations, see [iOS](https://github.com/getsentry/Reaper-iOS) and [Android](https://github.com/EmergeTools/emerge-android/tree/main/reaper) repos.
 
 ## How It Works
 
@@ -113,6 +117,10 @@ Add the following to your Android manifest:
 
 ## Running Static Analysis
 
+See how to extract all monitorable types for your app
+
+### Android
+
 To extract class signatures from an AAB file:
 
 ```bash
@@ -125,6 +133,10 @@ The output is a tab-separated file containing:
 - Base64-encoded top 64 bits
 - Package name
 - Version name
+
+### iOS
+
+Instructions found in the [iOS Reaper repo](https://github.com/getsentry/Reaper-iOS?tab=readme-ov-file#determining-all-types)
 
 ## Screenshots
 
