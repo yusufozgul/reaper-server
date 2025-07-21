@@ -8,11 +8,12 @@ RUN wget -O /usr/local/bin/bundletool.jar https://github.com/google/bundletool/r
     echo '#!/bin/bash\njava -jar /usr/local/bin/bundletool.jar "$@"' > /usr/local/bin/bundletool && \
     chmod +x /usr/local/bin/bundletool
 
-RUN wget -O /tmp/smali.zip https://github.com/JesusFreke/smali/releases/download/v2.5.2/smali-2.5.2.zip && \
-    unzip /tmp/smali.zip -d /opt/smali && \
-    echo '#!/bin/bash\njava -jar /opt/smali/baksmali-2.5.2.jar "$@"' > /usr/local/bin/baksmali && \
+RUN wget -O /tmp/smali.zip https://bitbucket.org/JesusFreke/smali/get/cbd41d36ccde.zip && \
+    unzip /tmp/smali.zip -d /tmp/ && \
+    find /tmp -name "baksmali*.jar" -exec cp {} /usr/local/bin/baksmali.jar \; && \
+    echo '#!/bin/bash\njava -jar /usr/local/bin/baksmali.jar "$@"' > /usr/local/bin/baksmali && \
     chmod +x /usr/local/bin/baksmali && \
-    rm /tmp/smali.zip
+    rm -rf /tmp/smali.zip /tmp/JesusFreke-smali-*
 
 WORKDIR /app
 
