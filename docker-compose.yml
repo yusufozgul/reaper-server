@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  reaper-server:
+    build: .
+    container_name: reaper-server
+    ports:
+      - "5000:5000"
+    environment:
+      - DATABASE_URL=postgresql://reaper:reaper@postgres:5432/reaper
+      - FLASK_ENV=production
+      - FLASK_DEBUG=false
+      - PYTHONUNBUFFERED=1
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - reaper_network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: reaper-postgres
+    environment:
+      - POSTGRES_DB=reaper
+      - POSTGRES_USER=reaper
+      - POSTGRES_PASSWORD=reaper
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U reaper -d reaper"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    restart: unless-stopped
+    networks:
+      - reaper_network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  reaper_network:
+    driver: bridge 

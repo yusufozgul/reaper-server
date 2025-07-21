@@ -2,11 +2,13 @@ import json
 import logging
 import os
 import shutil
-import sqlite3
 import tempfile
 from datetime import datetime
 import secrets
 from flask import Flask, flash, g, jsonify, render_template, request, redirect, url_for
+import psycopg2
+import psycopg2.extras
+from urllib.parse import urlparse
 
 import reaper
 
@@ -24,8 +26,13 @@ app.secret_key = secrets.token_hex()
 def get_db():
   db = getattr(g, "_database", None)
   if db is None:
-    db = g._database = sqlite3.connect("data.db")
-    db.row_factory = sqlite3.Row
+    # PostgreSQL connection
+    db_url = os.getenv('DATABASE_URL', 'postgresql://reaper:reaper@localhost:5432/reaper')
+    
+    if db_url.startswith('postgres://'):
+      db_url = db_url.replace('postgres://', 'postgresql://', 1)
+    
+    db = g._database = psycopg2.connect(db_url, cursor_factory=psycopg2.extras.DictCursor)
     init_db(db)
   return db
 
@@ -42,7 +49,7 @@ def init_db(conn):
 
   cursor.execute("""
     CREATE TABLE IF NOT EXISTS report (
-        report_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        report_id SERIAL PRIMARY KEY,
         app_id TEXT NOT NULL,
         version TEXT NOT NULL,
         platform TEXT NOT NULL,
@@ -53,7 +60,7 @@ def init_db(conn):
 
   cursor.execute("""
     CREATE TABLE IF NOT EXISTS observation (
-        observation_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        observation_id SERIAL PRIMARY KEY,
         report_id INTEGER NOT NULL,
         token TEXT NOT NULL,
         FOREIGN KEY (report_id) REFERENCES report (report_id)
@@ -62,7 +69,7 @@ def init_db(conn):
 
   cursor.execute("""
     CREATE TABLE IF NOT EXISTS known (
-        known_id INTEGER PRIMARY KEY AUTOINCREMENT,
+        known_id SERIAL PRIMARY KEY,
         app_id TEXT,
         version TEXT,
         platform TEXT,
